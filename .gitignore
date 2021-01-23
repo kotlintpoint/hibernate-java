@@ -1,3 +1,4 @@
 .metadata
 RemoteSystemsTempFiles
 hibernate.crud/target
+hibernate.one2one.bidirectional/target
