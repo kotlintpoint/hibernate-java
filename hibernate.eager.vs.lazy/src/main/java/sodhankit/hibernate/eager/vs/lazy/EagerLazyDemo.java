@@ -1,14 +1,14 @@
-package sodhankit.hibernate.one2many;
+package sodhankit.hibernate.eager.vs.lazy;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import sodhankit.hibernate.one2many.entity.Course;
-import sodhankit.hibernate.one2many.entity.Instructor;
-import sodhankit.hibernate.one2many.entity.InstructorDetail;
+import sodhankit.hibernate.eager.vs.lazy.entity.Course;
+import sodhankit.hibernate.eager.vs.lazy.entity.Instructor;
+import sodhankit.hibernate.eager.vs.lazy.entity.InstructorDetail;
 
-public class CreateCoursesDemo {
+public class EagerLazyDemo {
 
 	public static void main(String[] args) {
 
@@ -32,20 +32,22 @@ public class CreateCoursesDemo {
 			int theId = 2;
 			Instructor tempInstructor = session.get(Instructor.class, theId);		
 			
-			// create some courses
-			Course tempCourse1 = new Course("Air Guitar - The Ultimate Guide");
-			Course tempCourse2 = new Course("The Pinball Masterclass");
-			
-			// add courses to instructor
-			tempInstructor.add(tempCourse1);
-			tempInstructor.add(tempCourse2);
-			
-			// save the courses
-			session.save(tempCourse1);
-			session.save(tempCourse2);
+			System.out.println("Instructor: " + tempInstructor);
+		
+			System.out.println("Courses: " + tempInstructor.getCourses());
 			
 			// commit transaction
 			session.getTransaction().commit();
+			
+			// close the session
+			session.close();
+			
+			System.out.println("\nThe session is now closed!\n");
+
+			// option 1: call getter method while session is open
+			
+			// get courses for the instructor
+			System.out.println("Courses: " + tempInstructor.getCourses());
 			
 			System.out.println("Done!");
 		}

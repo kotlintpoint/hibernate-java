@@ -1,14 +1,17 @@
-package sodhankit.hibernate.one2many;
+package sodhankit.hibernate.eager.vs.lazy;
+
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
-import sodhankit.hibernate.one2many.entity.Course;
-import sodhankit.hibernate.one2many.entity.Instructor;
-import sodhankit.hibernate.one2many.entity.InstructorDetail;
+import sodhankit.hibernate.eager.vs.lazy.entity.Course;
+import sodhankit.hibernate.eager.vs.lazy.entity.Instructor;
+import sodhankit.hibernate.eager.vs.lazy.entity.InstructorDetail;
 
-public class CreateCoursesDemo {
+public class GetCoursesLater {
 
 	public static void main(String[] args) {
 
@@ -28,24 +31,29 @@ public class CreateCoursesDemo {
 			// start a transaction
 			session.beginTransaction();
 			
+			// option 2: Hibernate query with HQL
+			
 			// get the instructor from db
 			int theId = 2;
-			Instructor tempInstructor = session.get(Instructor.class, theId);		
+
+			Query<Course> query = 
+					session.createQuery("select c from Course c "
+									+ "where c.instructor.id=:theInstructorId", 
+							Course.class);
+
+			// set parameter on query
+			query.setParameter("theInstructorId", theId);
 			
-			// create some courses
-			Course tempCourse1 = new Course("Air Guitar - The Ultimate Guide");
-			Course tempCourse2 = new Course("The Pinball Masterclass");
+ 
+			List<Course> tempCourses=query.getResultList();
 			
-			// add courses to instructor
-			tempInstructor.add(tempCourse1);
-			tempInstructor.add(tempCourse2);
-			
-			// save the courses
-			session.save(tempCourse1);
-			session.save(tempCourse2);
+			System.out.println("tempCourses : " + tempCourses);	
 			
 			// commit transaction
 			session.getTransaction().commit();
+			
+			// close the session
+			session.close();
 			
 			System.out.println("Done!");
 		}
@@ -59,8 +67,3 @@ public class CreateCoursesDemo {
 	}
 
 }
-
-
-
-
-

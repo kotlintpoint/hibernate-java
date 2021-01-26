@@ -29,7 +29,7 @@ public class GetInstructorCoursesDemo {
 			session.beginTransaction();
 			
 			// get the instructor from db
-			int theId = 1;
+			int theId = 2;
 			Instructor tempInstructor = session.get(Instructor.class, theId);		
 			
 			System.out.println("Instructor: " + tempInstructor);
