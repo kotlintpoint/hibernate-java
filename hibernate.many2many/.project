@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>hibernate.one2many</name>
+	<name>hibernate.many2many</name>
 	<comment></comment>
 	<projects>
 	</projects>

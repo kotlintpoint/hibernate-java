@@ -1,13 +1,13 @@
-package sodhankit.hibernate.one2many;
+package sodhankit.hibernate.many2many;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import sodhankit.hibernate.one2many.entity.Course;
-import sodhankit.hibernate.one2many.entity.Instructor;
-import sodhankit.hibernate.one2many.entity.InstructorDetail;
-import sodhankit.hibernate.one2many.entity.Review;
+import sodhankit.hibernate.many2many.entity.Course;
+import sodhankit.hibernate.many2many.entity.Instructor;
+import sodhankit.hibernate.many2many.entity.InstructorDetail;
+import sodhankit.hibernate.many2many.entity.Review;
 
 public class CreateCourseAndReviewsDemo {
 

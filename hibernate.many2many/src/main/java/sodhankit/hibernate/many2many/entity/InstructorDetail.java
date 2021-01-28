@@ -1,4 +1,4 @@
-package sodhankit.hibernate.one2many.entity;
+package sodhankit.hibernate.many2many.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

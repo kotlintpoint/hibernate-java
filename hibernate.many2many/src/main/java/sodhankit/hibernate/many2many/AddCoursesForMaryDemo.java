@@ -1,16 +1,16 @@
-package sodhankit.hibernate.one2many;
+package sodhankit.hibernate.many2many;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import sodhankit.hibernate.one2many.entity.Course;
-import sodhankit.hibernate.one2many.entity.Instructor;
-import sodhankit.hibernate.one2many.entity.InstructorDetail;
-import sodhankit.hibernate.one2many.entity.Review;
-import sodhankit.hibernate.one2many.entity.Student;
+import sodhankit.hibernate.many2many.entity.Course;
+import sodhankit.hibernate.many2many.entity.Instructor;
+import sodhankit.hibernate.many2many.entity.InstructorDetail;
+import sodhankit.hibernate.many2many.entity.Review;
+import sodhankit.hibernate.many2many.entity.Student;
 
-public class GetCoursesForMaryDemo {
+public class AddCoursesForMaryDemo {
 
 	public static void main(String[] args) {
 
@@ -32,12 +32,26 @@ public class GetCoursesForMaryDemo {
 			// start a transaction
 			session.beginTransaction();
 				
-			// get the student from database
-			int studentId = 1;
+			// get the student mary from database
+			int studentId = 2;
 			Student tempStudent = session.get(Student.class, studentId);
 			
 			System.out.println("\nLoaded student: " + tempStudent);
-			System.out.println("Courses: " + tempStudent.getCourses());		
+			System.out.println("Courses: " + tempStudent.getCourses());
+			
+			// create more courses 
+			Course tempCourse1 = new Course("Rubik's Cube - How to Speed Cube");
+			Course tempCourse2 = new Course("Atari 2600 - Game Development");
+						
+			// add student to courses
+			tempCourse1.addStudent(tempStudent);
+			tempCourse2.addStudent(tempStudent);
+						
+			// save the courses
+			System.out.println("\nSaving the courses ...");
+			
+			session.save(tempCourse1);
+			session.save(tempCourse2);
 						
 			// commit transaction
 			session.getTransaction().commit();
