@@ -7,8 +7,10 @@ import org.hibernate.cfg.Configuration;
 import sodhankit.hibernate.one2many.entity.Course;
 import sodhankit.hibernate.one2many.entity.Instructor;
 import sodhankit.hibernate.one2many.entity.InstructorDetail;
+import sodhankit.hibernate.one2many.entity.Review;
+import sodhankit.hibernate.one2many.entity.Student;
 
-public class CreateInstructorDemo {
+public class DeletePacmanCourseDemo {
 
 	public static void main(String[] args) {
 
@@ -18,6 +20,8 @@ public class CreateInstructorDemo {
 								.addAnnotatedClass(Instructor.class)
 								.addAnnotatedClass(InstructorDetail.class)
 								.addAnnotatedClass(Course.class)
+								.addAnnotatedClass(Review.class)
+								.addAnnotatedClass(Student.class)
 								.buildSessionFactory();
 		
 		// create session
@@ -25,29 +29,18 @@ public class CreateInstructorDemo {
 		
 		try {			
 			
-			// create the objects			
-			Instructor tempInstructor = 
-					new Instructor("Ankit", "Sodha", "ankit.sodha@gmail.com");
-			
-			InstructorDetail tempInstructorDetail =
-					new InstructorDetail(
-							"http://www.youtube.com",
-							"Love to Code in Java!!!");		
-			
-			// associate the objects
-			tempInstructor.setInstructorDetail(tempInstructorDetail);
-			
 			// start a transaction
 			session.beginTransaction();
+
+			// get the pacman course from db
+			int courseId = 10;
+			Course tempCourse = session.get(Course.class, courseId);
 			
-			// save the instructor
-			//
-			// Note: this will ALSO save the details object
-			// because of CascadeType.ALL
-			//
-			System.out.println("Saving instructor: " + tempInstructor);
-			session.save(tempInstructor);					
+			// delete the course
+			System.out.println("Deleting course: " + tempCourse);
 			
+			session.delete(tempCourse);
+						
 			// commit transaction
 			session.getTransaction().commit();
 			

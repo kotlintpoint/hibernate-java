@@ -7,8 +7,9 @@ import org.hibernate.cfg.Configuration;
 import sodhankit.hibernate.one2many.entity.Course;
 import sodhankit.hibernate.one2many.entity.Instructor;
 import sodhankit.hibernate.one2many.entity.InstructorDetail;
+import sodhankit.hibernate.one2many.entity.Review;
 
-public class CreateCoursesDemo {
+public class CreateCourseAndReviewsDemo {
 
 	public static void main(String[] args) {
 
@@ -18,6 +19,7 @@ public class CreateCoursesDemo {
 								.addAnnotatedClass(Instructor.class)
 								.addAnnotatedClass(InstructorDetail.class)
 								.addAnnotatedClass(Course.class)
+								.addAnnotatedClass(Review.class)
 								.buildSessionFactory();
 		
 		// create session
@@ -28,21 +30,21 @@ public class CreateCoursesDemo {
 			// start a transaction
 			session.beginTransaction();
 			
-			// get the instructor from db
-			int theId = 2;
-			Instructor tempInstructor = session.get(Instructor.class, theId);		
 			
-			// create some courses
-			Course tempCourse1 = new Course("Air Guitar - The Ultimate Guide");
-			Course tempCourse2 = new Course("The Pinball Masterclass");
+			// create a course
+			Course tempCourse = new Course("Pacman - How To Score One Million Points");
 			
-			// add courses to instructor
-			tempInstructor.add(tempCourse1);
-			tempInstructor.add(tempCourse2);
+			// add some reviews
+			tempCourse.addReview(new Review("Great course ... loved it!"));
+			tempCourse.addReview(new Review("Cool course, job well done"));
+			tempCourse.addReview(new Review("What a dumb course, you are an idiot!"));
+						
+			// save the course ... and leverage the cascade all :-)
+			System.out.println("Saving the course");
+			System.out.println(tempCourse);
+			System.out.println(tempCourse.getReviews());
 			
-			// save the courses
-			session.save(tempCourse1);
-			session.save(tempCourse2);
+			session.save(tempCourse);
 			
 			// commit transaction
 			session.getTransaction().commit();
